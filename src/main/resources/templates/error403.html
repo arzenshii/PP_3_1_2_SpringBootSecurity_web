@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>403 — Доступ запрещен</title>
+    <style>
+        :root {
+            --primary-red: #e74c3c;
+            --dark-blue: #2c3e50;
+            --bg-color: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: var(--dark-blue);
+        }
+
+        .error-container {
+            text-align: center;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .icon-lock {
+            font-size: 80px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 72px;
+            margin: 0;
+            color: var(--primary-red);
+            line-height: 1;
+        }
+
+        h2 {
+            margin-top: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #7f8c8d;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .btn-home {
+            display: inline-block;
+            background-color: var(--dark-blue);
+            color: white;
+            padding: 12px 28px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-home:hover {
+            background-color: #34495e;
+            transform: translateY(-2px);
+        }
+
+        .debug-info {
+            margin-top: 25px;
+            font-size: 12px;
+            color: #bdc3c7;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-container">
+    <span class="icon-lock">🚫</span>
+    <h1 th:text="${status} ?: '403'">403</h1>
+    <h2>Доступ ограничен</h2>
+    <p>У вас нет разрешений на просмотр этой страницы. <br> Если вы считаете, что это ошибка, обратитесь к администратору.</p>
+
+    <a href="/" th:href="@{/}" class="btn-home">Вернуться на главную</a>
+
+    <!-- Техническая информация для разработчика (опционально) -->
+    <div class="debug-info">
+        <span th:text="${#dates.format(#dates.createNow(), 'dd.MM.yyyy HH:mm')}">Дата</span> |
+        Путь: <code th:text="${path} ?: 'unknown'">/api/admin</code>
+    </div>
+</div>
+
+</body>
+</html>

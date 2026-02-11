@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 — Ошибка сервера</title>
+    <style>
+        :root {
+            --primary-orange: #f39c12;
+            --dark-grey: #34495e;
+            --light-bg: #ecf0f1;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: var(--dark-grey);
+        }
+
+        .error-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 650px;
+            width: 90%;
+            border-top: 8px solid var(--primary-orange);
+        }
+
+        .icon {
+            font-size: 60px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 80px;
+            margin: 0;
+            color: var(--dark-grey);
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+
+        .details {
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            margin-bottom: 30px;
+            overflow-x: auto;
+        }
+
+        .details summary {
+            cursor: pointer;
+            font-weight: bold;
+            color: #7f8c8d;
+            outline: none;
+        }
+
+        code {
+            display: block;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #c0392b;
+            white-space: pre-wrap;
+        }
+
+        .btn-refresh {
+            display: inline-block;
+            background-color: var(--primary-orange);
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: 0.3s ease;
+        }
+
+        .btn-refresh:hover {
+            background-color: #d35400;
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+<div class="error-card">
+    <div class="icon">🛠️</div>
+    <h1 th:text="${status} ?: '500'">500</h1>
+    <h2>Что-то пошло не так на нашей стороне</h2>
+    <p>Мы уже получили уведомление об ошибке и работаем над исправлением.</p>
+
+    <!-- Раскрывающийся блок с ошибкой для разработчика -->
+    <details class="details" th:if="${error}">
+        <summary>Технические детали для поддержки</summary>
+        <p><strong>Ошибка:</strong> <span th:text="${error}">Internal Server Error</span></p>
+        <p th:if="${message}"><strong>Сообщение:</strong> <span th:text="${message}">Текст ошибки</span></p>
+        <p><strong>Путь:</strong> <code th:text="${path}">/example-endpoint</code></p>
+        <code th:if="${trace}" th:text="${trace}">Stacktrace здесь...</code>
+    </details>
+
+    <div style="margin-top: 20px;">
+        <a href="/" class="btn-refresh">На главную</a>
+        <button onclick="location.reload()" style="background:none; border:none; color:#7f8c8d; cursor:pointer; text-decoration:underline; margin-left:15px;">Обновить страницу</button>
+    </div>
+</div>
+
+</body>
+</html>
