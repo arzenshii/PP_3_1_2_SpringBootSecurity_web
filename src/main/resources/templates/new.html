@@ -17,11 +17,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <div class="container-fluid">
-    <span class="navbar-text">
-        <strong th:text="${authUser.email}"></strong>
-        with roles:
-        <span th:each="role : ${authUser.roles}" th:text="${#strings.replace(role.name, 'ROLE_', '') + ' '}"></span>
-    </span>
+            <span class="navbar-text">
+                <strong th:text="${authUser.email}"></strong>
+                with roles:
+                <span th:each="role : ${authUser.roles}" th:text="${#strings.replace(role.name, 'ROLE_', '') + ' '}"></span>
+            </span>
     <form th:action="@{/logout}" method="post">
       <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
     </form>
@@ -38,8 +38,16 @@
     <h2>Add New User</h2>
     <form th:action="@{/admin/new}" th:object="${user}" method="post">
       <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" th:field="*{userName}" required>
+        <label for="firstName" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="firstName" th:field="*{firstName}" required>
+      </div>
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="lastName" th:field="*{lastName}" required>
+      </div>
+      <div class="mb-3">
+        <label for="age" class="form-label">Age</label>
+        <input type="number" class="form-control" id="age" th:field="*{age}" required>
       </div>
       <div class="mb-3">
         <label for="email" class="form-label">Email</label>
@@ -62,7 +70,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="btn btn-primary">Save</button>
+      <button type="submit" class="btn btn-primary">Add new user</button>
       <a href="/admin" class="btn btn-secondary">Cancel</a>
     </form>
   </div>

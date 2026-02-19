@@ -13,6 +13,7 @@ import java.util.Set;
 
 @Component
 public class DBInitialization {
+
     private final UserService userService;
     private final RoleService roleService;
 
@@ -34,20 +35,35 @@ public class DBInitialization {
             User admin = new User();
             admin.setUserName("admin");
             admin.setPassword("admin123");
-            admin.setEmail("admin@example.com");
+            admin.setEmail("admin@mail.ru");
+            admin.setFirstName("Admin");
+            admin.setLastName("Admin");
+            admin.setAge(35);
+
             Set<Role> adminRoles = new HashSet<>();
             adminRoles.add(adminRole);
+            adminRoles.add(userRole);
             admin.setRoles(adminRoles);
+
             userService.save(admin);
 
             User user = new User();
             user.setUserName("user");
             user.setPassword("user123");
-            user.setEmail("user@example.com");
+            user.setEmail("user@mail.ru");
+            user.setFirstName("User");
+            user.setLastName("User");
+            user.setAge(30);
+
             Set<Role> userRoles = new HashSet<>();
             userRoles.add(userRole);
             user.setRoles(userRoles);
+
             userService.save(user);
+
+            System.out.println("=== Database initialized with test users ===");
+            System.out.println("Admin: admin@mail.ru / admin123");
+            System.out.println("User: user@mail.ru / user123");
         }
     }
 }
