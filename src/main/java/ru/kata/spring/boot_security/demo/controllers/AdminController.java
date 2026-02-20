@@ -34,6 +34,11 @@ public class AdminController {
         model.addAttribute("authUser", authUser);
         model.addAttribute("users", userService.findAll());
         model.addAttribute("allRoles", roleService.getRoles());
+
+        boolean isAdmin = authUser.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
+
         if (editId != null) {
             User editUser = userService.findById(editId);
             model.addAttribute("editUser", editUser);
@@ -51,6 +56,11 @@ public class AdminController {
         model.addAttribute("authUser", authUser);
         model.addAttribute("user", new User());
         model.addAttribute("allRoles", roleService.getRoles());
+
+        boolean isAdmin = authUser.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
+
         return "new";
     }
 
@@ -70,6 +80,11 @@ public class AdminController {
         model.addAttribute("user", userService.findById(id));
         model.addAttribute("users", userService.findAll());
         model.addAttribute("allRoles", roleService.getRoles());
+
+        boolean isAdmin = authUser.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
+
         return "admin";
     }
 

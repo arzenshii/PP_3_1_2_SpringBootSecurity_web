@@ -17,6 +17,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     @GetMapping
     public String showUsers(Model model, Principal principal) {
         if (principal == null) {
@@ -24,6 +25,11 @@ public class UserController {
         }
         User user = userService.findUserByUsername(principal.getName());
         model.addAttribute("user", user);
+
+        boolean isAdmin = user.getRoles().stream()
+                .anyMatch(role -> role.getName().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
+
         return "user";
     }
 }
