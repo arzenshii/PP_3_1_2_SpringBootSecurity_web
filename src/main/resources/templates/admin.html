@@ -6,11 +6,7 @@
   <title>Admin Panel</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .navbar-text {
-      margin-right: 15px;
-      color: white !important;
-      font-weight: 500;
-    }
+    .navbar-text { margin-right: 15px; color: white; }
     .navbar {
       background-color: #343a40 !important;
     }
@@ -104,7 +100,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <!-- Sidebar с Admin и User, ссылка Admin видна только администраторам -->
+    <!-- Sidebar с Admin и User -->
     <div class="col-md-2 sidebar">
       <div class="sidebar-header">MENU</div>
       <nav class="nav flex-column">
@@ -174,69 +170,122 @@
   </div>
 </div>
 
-<!-- Edit modal -->
+<!-- Edit modal (обновлена в стиле delete modal) -->
 <div th:if="${editUser != null}" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Edit User</h5>
+  <div class="modal-content" style="margin-top: 50px; margin-bottom: 50px;">
+    <div class="modal-header" style="padding-bottom: 10px; margin-bottom: 10px;">
+      <h5 class="modal-title" style="font-size: 1.2rem;">Edit user</h5>
       <a href="/admin" class="btn-close">&times;</a>
     </div>
-    <form th:action="@{/admin/update}" th:object="${editUser}" method="post">
-      <input type="hidden" th:field="*{id}">
-      <div class="mb-3">
-        <label class="form-label">Username</label>
-        <input type="text" class="form-control" th:field="*{userName}" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">First Name</label>
-        <input type="text" class="form-control" th:field="*{firstName}" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Last Name</label>
-        <input type="text" class="form-control" th:field="*{lastName}" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Age</label>
-        <input type="number" class="form-control" th:field="*{age}" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Email</label>
-        <input type="email" class="form-control" th:field="*{email}" required>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Password</label>
-        <input type="password" class="form-control" th:field="*{password}" placeholder="Leave blank to keep current">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">Roles</label>
-        <div th:each="role : ${allRoles}" class="form-check">
-          <input class="form-check-input" type="checkbox" th:id="${'editRole' + role.id}" th:value="${role.id}" th:field="*{roles}">
-          <label class="form-check-label" th:for="${'editRole' + role.id}" th:text="${#strings.replace(role.name, 'ROLE_', '')}"></label>
+    <div class="modal-body" style="text-align: center;">
+      <form th:action="@{/admin/update}" th:object="${editUser}" method="post">
+        <input type="hidden" th:field="*{id}">
+
+        <!-- ID (нередактируемое, для информации) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>ID</strong></p>
+        <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+          <p style="margin: 0; font-size: 0.95rem;" th:text="${editUser.id}"></p>
         </div>
-      </div>
-      <div class="modal-footer">
-        <a href="/admin" class="btn btn-secondary">Close</a>
-        <button type="submit" class="btn btn-primary">Edit</button>
-      </div>
-    </form>
+
+        <!-- First name (редактируемое) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>First name</strong></p>
+        <div style="margin-bottom: 10px; width: 100%;">
+          <input type="text" class="form-control" th:field="*{firstName}" required style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; width: 100%;">
+        </div>
+
+        <!-- Last name (редактируемое) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Last name</strong></p>
+        <div style="margin-bottom: 10px; width: 100%;">
+          <input type="text" class="form-control" th:field="*{lastName}" required style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; width: 100%;">
+        </div>
+
+        <!-- Age (редактируемое) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Age</strong></p>
+        <div style="margin-bottom: 10px; width: 100%;">
+          <input type="number" class="form-control" th:field="*{age}" required style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; width: 100%;">
+        </div>
+
+        <!-- Email (редактируемое) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Email</strong></p>
+        <div style="margin-bottom: 10px; width: 100%;">
+          <input type="email" class="form-control" th:field="*{email}" required style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; width: 100%;">
+        </div>
+
+        <!-- Password (редактируемое) -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Password</strong></p>
+        <div style="margin-bottom: 10px; width: 100%;">
+          <input type="password" class="form-control" th:field="*{password}" placeholder="Leave blank to keep current" style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; width: 100%;">
+        </div>
+
+        <!-- Role -->
+        <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Role</strong></p>
+        <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+          <div th:each="role : ${allRoles}" class="form-check" style="margin-bottom: 5px;">
+            <input class="form-check-input" type="checkbox" th:id="${'editRole' + role.id}" th:value="${role.id}" th:field="*{roles}">
+            <label class="form-check-label" th:for="${'editRole' + role.id}" th:text="${#strings.replace(role.name, 'ROLE_', '')}"></label>
+          </div>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="modal-footer" style="justify-content: center; padding-top: 10px; margin-top: 5px;">
+          <a href="/admin" class="btn btn-secondary btn-sm">Close</a>
+          <button type="submit" class="btn btn-primary btn-sm">Edit</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 
-<!-- Delete modal -->
+<!-- Delete modal (исправлен в соответствии с образцом) -->
 <div th:if="${deleteUser != null}" class="modal-overlay">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title">Delete User</h5>
+  <div class="modal-content" style="width: 500px; max-width: 90%; padding: 20px;">
+    <div class="modal-header" style="padding-bottom: 10px; margin-bottom: 10px;">
+      <h5 class="modal-title" style="font-size: 1.2rem;">Delete user</h5>
       <a href="/admin" class="btn-close">&times;</a>
     </div>
-    <div class="modal-body">
-      <p><strong>ID:</strong> <span th:text="${deleteUser.id}"></span></p>
-      <p><strong>First name:</strong> <span th:text="${deleteUser.firstName}"></span></p>
+    <div class="modal-body" style="text-align: center;">
+      <!-- ID -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>ID</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;" th:text="${deleteUser.id}"></p>
+      </div>
+
+      <!-- First name -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>First name</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;" th:text="${deleteUser.firstName}"></p>
+      </div>
+
+      <!-- Last name -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Last name</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;" th:text="${deleteUser.lastName}"></p>
+      </div>
+
+      <!-- Age -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Age</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;" th:text="${deleteUser.age}"></p>
+      </div>
+
+      <!-- Email -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Email</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;" th:text="${deleteUser.email}"></p>
+      </div>
+
+      <!-- Role -->
+      <p style="margin: 0.3rem 0; font-size: 0.9rem;"><strong>Role</strong></p>
+      <div style="background-color: #f8f9fa; border: 1px solid #dee2e6; border-radius: 5px; padding: 6px 10px; margin-bottom: 10px; width: 100%; text-align: left;">
+        <p style="margin: 0; font-size: 0.95rem;">
+          <span th:each="role : ${deleteUser.roles}" th:text="${#strings.replace(role.name, 'ROLE_', '') + ' '}"></span>
+        </p>
+      </div>
     </div>
-    <div class="modal-footer">
-      <a href="/admin" class="btn btn-secondary">Close</a>
-      <form th:action="@{/admin/delete/{id}(id=${deleteUser.id})}" method="post">
-        <button type="submit" class="btn btn-danger">Delete</button>
+    <div class="modal-footer" style="justify-content: center; padding-top: 10px; margin-top: 5px;">
+      <a href="/admin" class="btn btn-secondary btn-sm">Close</a>
+      <form th:action="@{/admin/delete/{id}(id=${deleteUser.id})}" method="post" style="display: inline;">
+        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
       </form>
     </div>
   </div>
