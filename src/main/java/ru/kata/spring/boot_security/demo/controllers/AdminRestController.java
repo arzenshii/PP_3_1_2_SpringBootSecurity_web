@@ -1,12 +1,12 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
-import ru.kata.spring.boot_security.demo.entityes.User;
-import ru.kata.spring.boot_security.demo.entityes.Role;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.kata.spring.boot_security.demo.service.RoleService;
+import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -14,45 +14,48 @@ import java.util.List;
 public class AdminRestController {
 
     private final UserService userService;
-    private final RoleService roleService;
 
-    public AdminRestController(UserService userService, RoleService roleService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
     }
 
+    // 1. Получение всех пользователей для таблицы
     @GetMapping("/users")
-    public List<User> getAllUsers() {
-        return userService.findAll();
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
+    // 2. Получение одного пользователя по ID (для модалок Edit/Delete)
     @GetMapping("/users/{id}")
-    public User getUser(@PathVariable Long id) {
-        return userService.findById(id);
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
+    // 3. ПОЛУЧЕНИЕ ТЕКУЩЕГО ЮЗЕРА (Критично для шапки и вкладки User)
+    @GetMapping("/users/auth")
+    public ResponseEntity<User> getAuthUser(Principal principal) {
+        User user = userService.findUserByUsername(principal.getName());
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    // 4. Создание нового пользователя
     @PostMapping("/users")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<User> addNewUser(@RequestBody User user) {
         userService.save(user);
-        return ResponseEntity.ok(user);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    // 5. Обновление пользователя
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id,
-                                           @RequestBody User user) {
-        user.setId(id);
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
         userService.update(user);
-        return ResponseEntity.ok(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    // 6. Удаление пользователя
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.delete(id);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/roles")
-    public List<Role> getAllRoles() {
-        return roleService.getRoles();
+        return new ResponseEntity<>("User deleted", HttpStatus.OK);
     }
 }

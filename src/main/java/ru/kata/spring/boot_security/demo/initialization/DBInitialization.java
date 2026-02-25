@@ -2,8 +2,8 @@ package ru.kata.spring.boot_security.demo.initialization;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.kata.spring.boot_security.demo.entityes.Role;
-import ru.kata.spring.boot_security.demo.entityes.User;
+import ru.kata.spring.boot_security.demo.entities.Role;
+import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
